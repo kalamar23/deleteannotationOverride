@@ -1,7 +1,19 @@
 #!/bin/bash
 
 echo -e "\e[00;32mCon este simple script usted borrara todas las anotaciones\e[00m"
-echo "@Override de su proyecto"
-echo "Usted desea continuar [y/n] :"
+echo -e "\e[00;32m@Override de su proyecto\e[00m"
+echo -e "\e[00;32mUsted desea continuar [y/n] :\e[00m"
 
+	seguir () {
 
+		echo "Está ejecutando la funcion"
+
+	}
+
+if[-d src] 
+then
+	seguir
+else 
+	echo "No se puede encontrar archivos fuentes, usted podría estar en una ruta incorrecta"
+
+fi
