@@ -14,7 +14,7 @@ echo -n -e "\e[00;32mEscriba la ruta donde se encuentra el proyecto :\e[00m"
 read ruta
 
 ruta=`echo $ruta | sed -e s/~//g`
-
+ruta=`echo $ruta | sed -e 's,/$,,'`
 if [ -z $ruta ]; then
 	ruta="src"
 	
@@ -27,10 +27,13 @@ fi
 if [ -d $ruta ]; then
 
 	for i in `find $ruta -type f -name "*.java"`; do
+	
+	permiso=`ls -la $i | awk '{k=0;for(i=0;i<=8;i++)k+=((substr($1,i+2,1)~/[rwx]/)*2^(8-i));if(k)printf("%0o ",k);print}' | awk -F ' ' '{print $1}'`
 	file=`basename $i`
 	cat "$i" | sed -e s/@Override//g > /tmp/$file
 	rm -r $i
-	mv /tmp/$file $i 
+	mv /tmp/$file $i
+	chmod $permiso $i
 	done
 
 else 
