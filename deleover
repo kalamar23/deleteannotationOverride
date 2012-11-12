@@ -2,18 +2,48 @@
 
 echo -e "\e[00;32mCon este simple script usted borrara todas las anotaciones\e[00m"
 echo -e "\e[00;32m@Override de su proyecto\e[00m"
-echo -e "\e[00;32mUsted desea continuar [y/n] :\e[00m"
+echo -e "\e[00;32mUsted desea continuar [s/n] :\e[00m"
+read res
 
-	seguir () {
 
-		echo "Está ejecutando la funcion"
 
-	}
 
-if[-d src] 
-then
-	seguir
+if [ $res == "s" -o $res == "S" ]; then
+
+echo -n -e "\e[00;32mEscriba la ruta donde se encuentra el proyecto :\e[00m"
+read ruta
+
+if [ -z $ruta ]; then
+	ruta="src"
+	echo $ruta
+else
+	ruta="$ruta/src/"
+	echo $ruta
+fi
+
+#verifica si el directorio contiene un directorio src
+echo "el valor de variable ruta es : $ruta"
+
+if [ -d $ruta ]; then
+
+	for i in `find $ruta -type f -name "*.java"`; do
+	file=`basename $i`
+	cat "$i" | sed -e s/@Override//g > /tmp/$file
+	rm -r $i
+	mv /tmp/$file $i 
+	done
+
 else 
-	echo "No se puede encontrar archivos fuentes, usted podría estar en una ruta incorrecta"
+	#printf "\033c"
+	echo -e "\e[00;32mNo se puede encontrar archivos fuentes, usted podría estar en una ruta incorrecta\e[00m"
 
 fi
+
+else 
+	echo -e "\e[00;32mNo se ha realizado nada\e[00m"
+	exit
+fi
+
+
+
+
