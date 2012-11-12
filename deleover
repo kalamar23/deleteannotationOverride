@@ -13,17 +13,17 @@ if [ $res == "s" -o $res == "S" ]; then
 echo -n -e "\e[00;32mEscriba la ruta donde se encuentra el proyecto :\e[00m"
 read ruta
 
+ruta=`echo $ruta | sed -e s/~//g`
+
 if [ -z $ruta ]; then
 	ruta="src"
-	echo $ruta
+	
 else
-	ruta="$ruta/src/"
-	echo $ruta
+	ruta="$HOME/$ruta/src"
+
 fi
 
 #verifica si el directorio contiene un directorio src
-echo "el valor de variable ruta es : $ruta"
-
 if [ -d $ruta ]; then
 
 	for i in `find $ruta -type f -name "*.java"`; do
@@ -34,7 +34,7 @@ if [ -d $ruta ]; then
 	done
 
 else 
-	#printf "\033c"
+	
 	echo -e "\e[00;32mNo se puede encontrar archivos fuentes, usted podría estar en una ruta incorrecta\e[00m"
 
 fi
